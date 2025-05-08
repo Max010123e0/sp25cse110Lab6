@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recipe Card Debug</title>
+  <script>
+    // Function to test recipe card functionality
+    function debugRecipeCards() {
+      console.log("=== RECIPE CARD DEBUG ===");
+      
+      // Check if recipe-card element is defined
+      console.log("Custom element 'recipe-card' defined:", customElements.get('recipe-card') !== undefined);
+      
+      // Check localStorage for recipes
+      const recipesStr = localStorage.getItem('recipes');
+      console.log("Recipes in localStorage:", recipesStr ? JSON.parse(recipesStr) : 'None');
+      
+      // Create a test recipe
+      const testRecipe = {
+        imgSrc: "./assets/images/1_spooky-ghost-cookies.jpeg",
+        imgAlt: "Debug Test Recipe",
+        titleLnk: "https://example.com",
+        titleTxt: "Debug Test Recipe Title",
+        organization: "Debug Organization",
+        rating: 5,
+        numRatings: 99,
+        lengthTime: "10 min",
+        ingredients: "Debug, Test, Ingredients"
+      };
+      
+      // Try to create and add a recipe card manually
+      try {
+        const card = document.createElement('recipe-card');
+        card.data = testRecipe;
+        document.querySelector('main').appendChild(card);
+        console.log("Manual recipe card created successfully");
+        
+        // Add to localStorage
+        const recipes = recipesStr ? JSON.parse(recipesStr) : [];
+        recipes.push(testRecipe);
+        localStorage.setItem('recipes', JSON.stringify(recipes));
+        console.log("Test recipe added to localStorage");
+      } catch (e) {
+        console.error("Error creating manual recipe card:", e);
+      }
+      
+      // Test form submission
+      const form = document.querySelector('form');
+      if (form) {
+        // Fill form with test data
+        document.getElementById('imgSrc').value = "./assets/images/2_frightfully-easy-ghost-cookies.jpeg";
+        document.getElementById('imgAlt').value = "Form Test Recipe";
+        document.getElementById('titleTxt').value = "Form Test Recipe Title";
+        document.getElementById('titleLnk').value = "https://example.com/form-test";
+        document.getElementById('organization').value = "Form Test Organization";
+        document.getElementById('rating-4').checked = true;
+        document.getElementById('numRatings').value = "42";
+        document.getElementById('lengthTime').value = "20 min";
+        document.getElementById('ingredients').value = "Form, Test, Ingredients";
+        
+        console.log("Form filled with test data, please click Submit button to test");
+      } else {
+        console.error("Form not found");
+      }
+    }
+    
+    // Run debug when page loads
+    window.addEventListener('DOMContentLoaded', () => {
+      console.log("Debug script loaded");
+      
+      // Add debug button
+      const debugButton = document.createElement('button');
+      debugButton.textContent = "Run Debug Tests";
+      debugButton.style.backgroundColor = "#ffcc00";
+      debugButton.style.padding = "10px";
+      debugButton.style.marginTop = "20px";
+      debugButton.addEventListener('click', debugRecipeCards);
+      
+      document.body.appendChild(debugButton);
+    });
+  </script>
+</head>
+<body>
+  <h1>Recipe Card Debug Helper</h1>
+  <p>This file helps test your recipe card functionality. Open your browser console (F12) to see debug information.</p>
+  <p>Click the "Run Debug Tests" button to run tests.</p>
+</body>
+</html>
